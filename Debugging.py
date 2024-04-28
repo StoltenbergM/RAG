@@ -1,10 +1,11 @@
 from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 from key import ANTHROPIC_API_KEY
 
 # https://www.freecodecamp.org/news/beginners-guide-to-langchain/
 
-ANTHROPIC_API_KEY=ANTHROPIC_API_KEY
+ANTHROPIC_API_KEY = ANTHROPIC_API_KEY
 
 chat_model = ChatAnthropic(
     model="claude-3-sonnet-20240229",
@@ -12,32 +13,8 @@ chat_model = ChatAnthropic(
     api_key=ANTHROPIC_API_KEY
 )
 
-joke_prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a world class comedian."),
-    ("human", "Tell me a joke about {topic}")
-])
-
-## Chaining
-chain = joke_prompt | chat_model
-
-## Output Parser (Making the output a string)
-from langchain_core.output_parsers import StrOutputParser
-
-str_chain = chain | StrOutputParser()
-
-# Equivalent to:
-# str_chain = joke_prompt | chat_model | StrOutputParser()
-#response = str_chain.invoke({"topic": "beets"})
-
-## Streaming (Will yield output faster, cut them into chunks)
-
-#for chunk in str_chain.stream({"topic": "beets"}):
-    #print(chunk, end="|")
-
 ## Debugging
 from langchain.globals import set_debug
-
-set_debug(True)
 
 from datetime import date
 
@@ -47,6 +24,10 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 chain = prompt | chat_model | StrOutputParser()
+## simpel debug:
+
+## Can turn debug mode of or on for more info or clarity
+set_debug(True)
 
 response = chain.invoke({
     "question": "What is the current date?",
@@ -54,3 +35,22 @@ response = chain.invoke({
 })
 
 print(response)
+'''
+set_debug(False)
+
+# Define an asynchronous function to run the code
+import asyncio
+async def main():
+    # Invoke the chain and stream events
+    stream = chain.astream_events({
+        "question": "What is the current date?",
+        "current_date": date.today()
+    }, version="v1")
+
+    async for event in stream:
+        print(event)
+        print("-----")
+
+# Run the asynchronous function
+asyncio.run(main())
+'''
