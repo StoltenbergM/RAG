@@ -10,6 +10,7 @@ import sys
 
 ''' --------------------------------------- Model used -----------------------------------------'''
 ANTHROPIC_API_KEY=ANTHROPIC_API_KEY
+model_name = "C085 eksperten"
 chat_model = ChatAnthropic(
     model="claude-3-sonnet-20240229",
     temperature=0,
@@ -25,7 +26,7 @@ pdf2txt = True
 data_folder_name = "RAG data"
 
 # Set the path to the folder containing your text files
-folder_path = r"C:\Users\morte\Dropbox\Uni\Speciale\Litteratur\Om Hydrogen"
+folder_path = r"C:\Users\morte\Dropbox\Uni\Speciale\Litteratur"
 
 ''' ------------------------------- Input data - Choice of data ---------------------------------'''
 
@@ -59,7 +60,8 @@ for file in os.listdir(path_data):
 
 # Create a Dataset object from the loaded text files
 SOURCE = data_files
-print(f"Type of data: {type(SOURCE)}")
+
+print(f"\n --- Asking {model_name} ---\n")
 ''' ---------------------------------------------------------------------------------------------------- '''
 
 rag_prompt = ChatPromptTemplate.from_messages([
