@@ -1,7 +1,6 @@
 import os
 import docx2txt
 import PyPDF2
-from PyPDF2 import PdfReader, PdfWriter
 from datetime import datetime
 
 # Iterate over all files in the folder with a .docx extension

@@ -4,6 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 import database_processing
+import os
 from os import path
 import sys
 
@@ -33,7 +34,7 @@ if not path.exists(folder_path):
     sys.exit()
 
 # create .txt file for all word files - from datatransform
-path_data = datatransform.File2txt(folder_path, data_folder_name, word2txt, pdf2txt)
+path_data = database_processing.File2txt(folder_path, data_folder_name, word2txt, pdf2txt)
 
 # Checking size of the new folder
 folder_size = 0
@@ -43,7 +44,7 @@ for root, dirs, files in os.walk(path_data):
         folder_size += os.path.getsize(os.path.join(root, file))
         nu_of_files += 1
 
-proceed = input(f'\nThe data-folder {data_folder_name} consists of {nu_of_files} file(s) with an accumulative '
+proceed = input(f'\nThe data-folder "{data_folder_name}" consists of {nu_of_files} file(s) with an accumulative '
                 f'size of {int(folder_size / 1000)} KB. \nDo you want to proceed and train the model? (y/n): ')
 if proceed.lower() != "y":
     print("Exiting the script...")
@@ -57,9 +58,9 @@ for file in os.listdir(path_data):
             data_files.append(f.read())
 
 # Create a Dataset object from the loaded text files
-SOURCE = Dataset.from_dict({'text': data_files})
-print(SOURCE)
-''' -------------------------------------------------------------------------------------------------------
+SOURCE = data_files
+print(f"Type of data: {type(SOURCE)}")
+''' ---------------------------------------------------------------------------------------------------- '''
 
 rag_prompt = ChatPromptTemplate.from_messages([
     ("system", 'You are a helpful assistant. Use the following context when responding:\n\n{context}.'),
@@ -69,8 +70,8 @@ rag_prompt = ChatPromptTemplate.from_messages([
 rag_chain = rag_prompt | chat_model | StrOutputParser()
 
 response = rag_chain.invoke({
-    "question": "What was the Old Ship Saloon's total revenue in Q1 2023?",
+    "question": "How much Hydrogen did the U.S. produce? Please note where you found the answer in the provided context",
     "context": SOURCE
 })
 
-print(response)'''
+print(response)
