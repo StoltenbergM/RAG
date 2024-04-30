@@ -102,7 +102,13 @@ def File2txt(folder_path, data_folder_name, word2txt=True, pdf2txt=True):
             with open(text_path, "w", encoding="utf-8") as text_file:
                 text_file.write(text)
 
-            print(f"Converted '{filename}' from {parent_folder_name}")
+            ## Print out conversion of file and path
+            created_folder_path = f"{parent_folder_name}"
+
+            for i, folder_name in enumerate(folder_names):
+                created_folder_path += f"\{folder_name}"
+
+            print(f"Converted '{filename}' from {created_folder_path}")
 
     if conversion_counter == 0:
         print(f"There was no .docx files located in the choosen folder")

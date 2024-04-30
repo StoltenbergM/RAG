@@ -21,10 +21,10 @@ word2txt = True
 pdf2txt = True
 
 # New folder name for .txt data-folder
-data_folder_name = "Litteratur"
+data_folder_name = "RAG data"
 
 # Set the path to the folder containing your text files
-folder_path = r"C:\Users\morte\Dropbox\Uni\Speciale"
+folder_path = r"C:\Users\morte\Dropbox\Uni\Speciale\Litteratur\Om Hydrogen"
 
 ''' ------------------------------- Input data - Choice of data ---------------------------------'''
 
