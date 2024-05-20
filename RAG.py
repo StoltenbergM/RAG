@@ -12,11 +12,14 @@ chat_model = ChatAnthropic(
     api_key=ANTHROPIC_API_KEY
 )
 
-joke_prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a world class comedian."),
-    ("human", "Tell me a joke about {topic}")
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a world class data scientist and RAG expert."),
+    ("human", "Can you provide the code template for using RAG with langchain and with with the {model} model. The RAG should involve indexing, so it should embed my documents, and then probably embed the questions, and the relevant spltis should be retrived by the model, and then generate a response in the end. Please include a bit of description along the way")
 ])
 
+response = prompt.invoke({"model": "anthropic"})
+print(response.content)
+'''
 ## Chaining
 chain = joke_prompt | chat_model
 
@@ -54,3 +57,4 @@ response = chain.invoke({
 })
 
 print(response)
+'''
